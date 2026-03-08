@@ -18,7 +18,7 @@ promise<uint32>@ set_timeout(uint64 timeout_ms)
     return event.data;
 }
 
-void main()
+void main2()
 {
     auto start = get_milliseconds();
     co_await set_timeout_native_promise(500); // Promise is created and resolved in C++, awaited in AS

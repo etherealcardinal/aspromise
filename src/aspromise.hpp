@@ -3,7 +3,6 @@
 #ifndef PROMISE_CONFIG
 #define PROMISE_CONFIG
 #define PROMISE_TYPENAME "promise" // promise type
-#define PROMISE_VOIDPOSTFIX "_v" // promise<void> type (promise_v)
 #define PROMISE_WRAP "wrap" // promise setter function
 #define PROMISE_UNWRAP "unwrap" // promise getter function
 #define PROMISE_YIELD "yield" // promise awaiter function
@@ -470,25 +469,25 @@ public:
 		PROMISE_CHECK(Engine->RegisterObjectMethod(PROMISE_TYPENAME "<T>", PROMISE_TYPENAME "<T>@+ " PROMISE_YIELD "()", asMETHOD(Type, YieldIf), asCALL_THISCALL));
 		PROMISE_CHECK(Engine->RegisterObjectMethod(PROMISE_TYPENAME "<T>", "bool " PROMISE_PENDING "()", asMETHOD(Type, IsPending), asCALL_THISCALL));
 #if PROMISE_CALLBACKS
-		PROMISE_CHECK(Engine->RegisterFuncdef("void " PROMISE_TYPENAME "<T>::" PROMISE_EVENT "(promise<T>@+)"));
+		PROMISE_CHECK(Engine->RegisterFuncdef("void " PROMISE_TYPENAME "<T>::" PROMISE_EVENT "(" PROMISE_TYPENAME "<T>@+)"));
 		PROMISE_CHECK(Engine->RegisterObjectMethod(PROMISE_TYPENAME "<T>", "void " PROMISE_WHEN "(" PROMISE_EVENT "@)", asMETHODPR(Type, When, (asIScriptFunction*), void), asCALL_THISCALL));
 #endif
-		PROMISE_CHECK(Engine->RegisterObjectType(PROMISE_TYPENAME PROMISE_VOIDPOSTFIX, 0, asOBJ_REF | asOBJ_GC));
-		PROMISE_CHECK(Engine->RegisterObjectBehaviour(PROMISE_TYPENAME PROMISE_VOIDPOSTFIX, asBEHAVE_FACTORY, PROMISE_TYPENAME PROMISE_VOIDPOSTFIX "@ f()", asFUNCTION(Type::CreateFactoryVoid), asCALL_CDECL));
-		PROMISE_CHECK(Engine->RegisterObjectBehaviour(PROMISE_TYPENAME PROMISE_VOIDPOSTFIX, asBEHAVE_ADDREF, "void f()", asMETHOD(Type, AddRef), asCALL_THISCALL));
-		PROMISE_CHECK(Engine->RegisterObjectBehaviour(PROMISE_TYPENAME PROMISE_VOIDPOSTFIX, asBEHAVE_RELEASE, "void f()", asMETHOD(Type, Release), asCALL_THISCALL));
-		PROMISE_CHECK(Engine->RegisterObjectBehaviour(PROMISE_TYPENAME PROMISE_VOIDPOSTFIX, asBEHAVE_SETGCFLAG, "void f()", asMETHOD(Type, MarkRef), asCALL_THISCALL));
-		PROMISE_CHECK(Engine->RegisterObjectBehaviour(PROMISE_TYPENAME PROMISE_VOIDPOSTFIX, asBEHAVE_GETGCFLAG, "bool f()", asMETHOD(Type, IsRefMarked), asCALL_THISCALL));
-		PROMISE_CHECK(Engine->RegisterObjectBehaviour(PROMISE_TYPENAME PROMISE_VOIDPOSTFIX, asBEHAVE_GETREFCOUNT, "int f()", asMETHOD(Type, GetRefCount), asCALL_THISCALL));
-		PROMISE_CHECK(Engine->RegisterObjectBehaviour(PROMISE_TYPENAME PROMISE_VOIDPOSTFIX, asBEHAVE_ENUMREFS, "void f(int&in)", asMETHOD(Type, EnumReferences), asCALL_THISCALL));
-		PROMISE_CHECK(Engine->RegisterObjectBehaviour(PROMISE_TYPENAME PROMISE_VOIDPOSTFIX, asBEHAVE_RELEASEREFS, "void f(int&in)", asMETHOD(Type, ReleaseReferences), asCALL_THISCALL));
-		PROMISE_CHECK(Engine->RegisterObjectMethod(PROMISE_TYPENAME PROMISE_VOIDPOSTFIX, "void " PROMISE_WRAP "()", asMETHODPR(Type, StoreVoid, (), void), asCALL_THISCALL));
-		PROMISE_CHECK(Engine->RegisterObjectMethod(PROMISE_TYPENAME PROMISE_VOIDPOSTFIX, "void " PROMISE_UNWRAP "()", asMETHODPR(Type, RetrieveVoid, (), void), asCALL_THISCALL));
-		PROMISE_CHECK(Engine->RegisterObjectMethod(PROMISE_TYPENAME PROMISE_VOIDPOSTFIX, PROMISE_TYPENAME PROMISE_VOIDPOSTFIX "@+ " PROMISE_YIELD "()", asMETHOD(Type, YieldIf), asCALL_THISCALL));
-		PROMISE_CHECK(Engine->RegisterObjectMethod(PROMISE_TYPENAME PROMISE_VOIDPOSTFIX, "bool " PROMISE_PENDING "()", asMETHOD(Type, IsPending), asCALL_THISCALL));
+		PROMISE_CHECK(Engine->RegisterObjectType(PROMISE_TYPENAME "<void>", 0, asOBJ_REF | asOBJ_GC));
+		PROMISE_CHECK(Engine->RegisterObjectBehaviour(PROMISE_TYPENAME "<void>", asBEHAVE_FACTORY, PROMISE_TYPENAME "<void>@ f()", asFUNCTION(Type::CreateFactoryVoid), asCALL_CDECL));
+		PROMISE_CHECK(Engine->RegisterObjectBehaviour(PROMISE_TYPENAME "<void>", asBEHAVE_ADDREF, "void f()", asMETHOD(Type, AddRef), asCALL_THISCALL));
+		PROMISE_CHECK(Engine->RegisterObjectBehaviour(PROMISE_TYPENAME "<void>", asBEHAVE_RELEASE, "void f()", asMETHOD(Type, Release), asCALL_THISCALL));
+		PROMISE_CHECK(Engine->RegisterObjectBehaviour(PROMISE_TYPENAME "<void>", asBEHAVE_SETGCFLAG, "void f()", asMETHOD(Type, MarkRef), asCALL_THISCALL));
+		PROMISE_CHECK(Engine->RegisterObjectBehaviour(PROMISE_TYPENAME "<void>", asBEHAVE_GETGCFLAG, "bool f()", asMETHOD(Type, IsRefMarked), asCALL_THISCALL));
+		PROMISE_CHECK(Engine->RegisterObjectBehaviour(PROMISE_TYPENAME "<void>", asBEHAVE_GETREFCOUNT, "int f()", asMETHOD(Type, GetRefCount), asCALL_THISCALL));
+		PROMISE_CHECK(Engine->RegisterObjectBehaviour(PROMISE_TYPENAME "<void>", asBEHAVE_ENUMREFS, "void f(int&in)", asMETHOD(Type, EnumReferences), asCALL_THISCALL));
+		PROMISE_CHECK(Engine->RegisterObjectBehaviour(PROMISE_TYPENAME "<void>", asBEHAVE_RELEASEREFS, "void f(int&in)", asMETHOD(Type, ReleaseReferences), asCALL_THISCALL));
+		PROMISE_CHECK(Engine->RegisterObjectMethod(PROMISE_TYPENAME "<void>", "void " PROMISE_WRAP "()", asMETHODPR(Type, StoreVoid, (), void), asCALL_THISCALL));
+		PROMISE_CHECK(Engine->RegisterObjectMethod(PROMISE_TYPENAME "<void>", "void " PROMISE_UNWRAP "()", asMETHODPR(Type, RetrieveVoid, (), void), asCALL_THISCALL));
+		PROMISE_CHECK(Engine->RegisterObjectMethod(PROMISE_TYPENAME "<void>", PROMISE_TYPENAME "<void>" "@+ " PROMISE_YIELD "()", asMETHOD(Type, YieldIf), asCALL_THISCALL));
+		PROMISE_CHECK(Engine->RegisterObjectMethod(PROMISE_TYPENAME "<void>", "bool " PROMISE_PENDING "()", asMETHOD(Type, IsPending), asCALL_THISCALL));
 #if PROMISE_CALLBACKS
-		PROMISE_CHECK(Engine->RegisterFuncdef("void " PROMISE_TYPENAME PROMISE_VOIDPOSTFIX "::" PROMISE_EVENT "(promise_v@+)"));
-		PROMISE_CHECK(Engine->RegisterObjectMethod(PROMISE_TYPENAME PROMISE_VOIDPOSTFIX, "void " PROMISE_WHEN "(" PROMISE_EVENT "@)", asMETHODPR(Type, When, (asIScriptFunction*), void), asCALL_THISCALL));
+		PROMISE_CHECK(Engine->RegisterFuncdef("void " PROMISE_TYPENAME "<void>" "::" PROMISE_EVENT "(" PROMISE_TYPENAME "<void>@+)"));
+		PROMISE_CHECK(Engine->RegisterObjectMethod(PROMISE_TYPENAME "<void>", "void " PROMISE_WHEN "(" PROMISE_EVENT "@)", asMETHODPR(Type, When, (asIScriptFunction*), void), asCALL_THISCALL));
 #endif
 	}
 
@@ -498,7 +497,7 @@ private:
 	{
 		int TypeId = Info->GetSubTypeId();
 		if (TypeId == asTYPEID_VOID)
-			return false;
+			return true;
 
 		if ((TypeId & asTYPEID_MASK_OBJECT) && !(TypeId & asTYPEID_OBJHANDLE))
 		{

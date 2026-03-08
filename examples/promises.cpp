@@ -6,6 +6,7 @@
 #include <thread>
 #include <inttypes.h>
 #include <queue>
+#include <chrono>
 
 /* How to execute this example */
 enum class ExampleExecution
