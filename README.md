@@ -5,59 +5,43 @@ A header-only implementation of promise concept for AngelScript library. Actual 
 Drag and drop __promise.hpp__ somewhere into your project.
 
 ## Example usage with AngelScript
-Promise creation
 ```as
+    /* Create a pending promise */
     promise<int>@ result = promise<int>();
-```
 
-Promise settlement
-```cpp
+    /* Settle the promise */
     result.wrap(10);
-```
 
-Promise awaiting using coroutines
-```cpp
-    int number_awaited = co_await result;
-    int number_unwrapped = result.yield().unwrap();
-```
-
-Promise awaiting using callbacks
-```cpp
-    result.when(function(wrapped_number)
+    /* Unwrap the promise */
+    int await_value = co_await result;          // Like this
+    int unwrap_value = result.yield().unwrap(); // Or like that
+    result.when(function(result)                // And maybe like that
     {
-        int number_unwrapped = wrapped_number.unwrap();
+        int deferred_unwrap_value = result.unwrap();
     });
-```
+``` 
 
 ## Example usage with C++
-Promise creation
 ```cpp
+    /* Create a pending promise */
     AsBasicPromise<Executor>* Result = AsBasicPromise<Executor>::Create();
     /*
         Built-in implementations:
             AsDirectPromise = thread that resolves the promise continues script execution,
             AsReactivePromise = thread that resolves notifies the initiator
     */
-```
+    
+    /* Settle the promise */
+    int32_t NumberIn = 10;
+    Result->Store(&NumberIn, asTYPEID_INT32);
 
-Promise settlement
-```cpp
-    int32_t Number = 10;
-    Result->Store(&Number, asTYPEID_INT32);
-```
-
-Promise awaiting using wait
-```cpp
-    int32_t Number;
-    Result->WaitIf()->Retrieve(&Number, asTYPEID_INT32);
-```
-
-Promise awaiting using callbacks
-```cpp
-    Result->When([](AsBasicPromise<Executor>* Result)
+    /* Unwrap the promise */
+    int32_t NumberOut;
+    Result->WaitIf()->Retrieve(&NumberOut, asTYPEID_INT32); // Like this
+    Result->When([](AsBasicPromise<Executor>* Result)       // Or like that
     {
-        int32_t Number;
-        Result->Retrieve(&Number, asTYPEID_INT32);
+        int32_t NumberOut;
+        Result->Retrieve(&NumberOut, asTYPEID_INT32);
     });
 ```
 
